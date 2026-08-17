@@ -2,9 +2,8 @@
 #include <vector>
 using namespace std;
 
-
-// PROBLEM - SEARCH IN A ROTATED SORTED ARRAY-I (LEET-33)
-int search(vector<int> &nums, int target)
+// PROBLEM - Search in Rotated Sorted Array-II;
+bool search(vector<int> &nums, int target)
 {
     int n = nums.size();
     int low = 0;
@@ -13,8 +12,13 @@ int search(vector<int> &nums, int target)
     {
         int mid = low + (high - low) / 2;
         if (nums[mid] == target)
-            return mid;
-            // We check for left sorted;
+            return true;
+        if (nums[mid] == nums[low] && nums[mid] == nums[high])
+        {
+            low++;
+            high--;
+            continue;
+        }
         if (nums[low] <= nums[mid])
         {
             if (nums[low] <= target && target <= nums[mid])
@@ -26,7 +30,6 @@ int search(vector<int> &nums, int target)
                 low = mid + 1;
             }
         }
-        // if left sorted check fails then automatically it means right sorted , as break comes only once in a rotated sorted array!
         else
         {
             if (nums[mid] <= target && target <= nums[high])
@@ -39,13 +42,12 @@ int search(vector<int> &nums, int target)
             }
         }
     }
-    return -1;
+    return false;
 }
 
 int main()
 {
-    vector<int> nums = {4,5,6,7,0,1,2};
-    // int target = 3;
-    int target = 0;
+    vector<int> nums = {2, 5, 6, 0, 0, 1, 2};
+    int target = 100;
     cout << search(nums, target);
 }
